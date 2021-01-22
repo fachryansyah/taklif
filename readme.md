@@ -14,7 +14,7 @@ A place for storing production build of Client
 Collection of Rest API controller for Client
 ### PM
 PM is Proccess Manager that can manage your application, create app, check status, kill, delete and etc.
-### Routes
+### Router
 Route URL of Rest API from controller
 
 # Todo 🗒
