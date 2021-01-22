@@ -42,7 +42,7 @@ func ResponseUnauthenticated(c *fiber.Ctx, data interface{}, message string) err
 // ResponseValidationError : returning json structur for validation error request
 func ResponseValidationError(c *fiber.Ctx, data interface{}, message string) error {
 	return c.JSON(fiber.Map{
-		"status":  304,
+		"status": 400,
 		"message": message,
 		"data":    data,
 	})
