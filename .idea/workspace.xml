@@ -2,23 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3cc9a32f-98ad-4d6c-bc47-61d6b9ee18df" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/cli/cli.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/databases/data-taklif.db" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/databases/migration/1_user.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/handlers/auth.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/database.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/user.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/providers/user.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/routers/auth.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/err.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/response.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/makefile" beforeDir="false" afterPath="$PROJECT_DIR$/makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/routers/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
