@@ -1,111 +1,68 @@
 package handlers
 
 import (
-	"fmt"
-	"taklif/models"
 	"taklif/providers"
+	"taklif/services"
+	"taklif/types"
 	utils "taklif/utils"
 	"log"
-	"os"
-	"regexp"
-	"time"
 
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
-	"golang.org/x/crypto/bcrypt"
 )
 
-type AuthInput struct {
-	Name            string `json:"name" form:"name"`
-	Email           string `json:"email" form:"email"`
-	Password        string `json:"password" form:"password"`
-	ConfirmPassword string `json:"confirm_password" form:"confirm_password"`
-}
-
-type LoginResponse struct {
-	AccessToken  string `json:"access_token"`
-}
-
-type LoginIdentity struct {
-	ID    string `json:"id"`
-	Email string `json:"email"`
-	Name  string `json:"name"`
-}
-
-type Token struct {
-	AccessToken  string `json:"access_token"`
-	RefreshToken string `json:"refresh_token"`
-}
-
 // LoginHandler is for handle user login
-func LoginHandler(c *fiber.Ctx) error {
+func LoginHandler(c *fiber.Ctx) (error) {
 
-	loginInput := new(AuthInput)
+	loginInput := new(types.AuthInput)
 	if err := c.BodyParser(loginInput); err != nil {
 		return c.SendStatus(fiber.StatusUnauthorized)
 	}
 
-	validate, isValid := isLoginInputValid(AuthInput{
+	payload := types.AuthInput{
 		Email:    loginInput.Email,
 		Password: loginInput.Password,
-	})
+	}
+
+	validate, isValid := services.IsLoginInputValid(payload)
 	if !isValid {
 		return utils.ResponseValidationError(c, validate, "Validation Error")
 	}
 
-	findUserByEmail, err := models.FindUserByEmail(loginInput.Email)
+	token, err := services.LoginService(payload)
 	if err != nil {
 		log.Println(err)
-		return err
+		return utils.ResponseBadRequest(c, err.Error(), "Something went wrong")
 	}
-
-	err = bcrypt.CompareHashAndPassword([]byte(findUserByEmail.Password), []byte(loginInput.Password))
-	if err != nil {
-		log.Println(err)
-		return utils.ResponseError(c, nil, "Password anda salah")
-	}
-
-	token, err := generateToken(LoginIdentity{
-		ID:    findUserByEmail.ID,
-		Name:  findUserByEmail.Name,
-		Email: findUserByEmail.Email,
-	}, "user")
 
 	return utils.ResponseSuccess(c, token, "Login sukses!")
 }
 
 func RegisterHandler(c *fiber.Ctx) error {
-	registerInput := new(AuthInput)
+	registerInput := new(types.AuthInput)
 	if err := c.BodyParser(registerInput); err != nil {
 		return c.SendStatus(fiber.StatusUnauthorized)
 	}
 
-	validate, isValid := isRegisterInputValid(AuthInput{
+	payload := types.AuthInput{
 		Name:            registerInput.Name,
 		Email:           registerInput.Email,
 		Password:        registerInput.Password,
 		ConfirmPassword: registerInput.ConfirmPassword,
-	})
+	}
+
+	validate, isValid := services.IsRegisterInputValid(payload)
 	if !isValid {
 		return utils.ResponseValidationError(c, validate, "Validation Error")
 	}
 
-	hashPassword, err := bcrypt.GenerateFromPassword([]byte(registerInput.Password), 14)
+	id, err := services.RegisterService(payload)
 	if err != nil {
-		return err
-	}
-
-	id, err := models.InsertUser(models.User{
-		Name:     registerInput.Name,
-		Email:    registerInput.Email,
-		Password: string(hashPassword),
-	})
-	if err != nil {
-		return err
+		log.Println(err)
+		return utils.ResponseValidationError(c, "Error", "Validation Error")
 	}
 
 	type response struct {
-		ID *string `json:"id"`
+		ID *string
 	}
 
 	return utils.ResponseSuccess(c, response{ID: id}, "Registration Sucess!")
@@ -118,148 +75,9 @@ func CheckTokenHandler(c *fiber.Ctx) error {
 		return utils.ResponseError(c, "Token invalid", "Something went wrong")
 	}
 
-	return utils.ResponseSuccess(c, &LoginIdentity{
+	return utils.ResponseSuccess(c, &types.LoginIdentity{
 		ID:    user.ID,
 		Name:  user.Name,
 		Email: user.Email,
 	}, "Token valid!")
-}
-
-func RequestTokenHandler(c *fiber.Ctx) error {
-	jwtKey := os.Getenv("JWT_KEY")
-	tokenString := c.Get("Authorization")
-	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
-		}
-		return []byte(jwtKey), nil
-	})
-	if err != nil {
-		log.Println(err)
-		return utils.ResponseError(c, err.Error, "Something went wrong")
-	}
-
-	claims, ok := token.Claims.(jwt.MapClaims)
-	if !ok {
-		return utils.ResponseError(c, err.Error, "Something went wrong")
-	}
-
-	userID := claims["identity"].(map[string]interface{})["id"]
-	email := claims["identity"].(map[string]interface{})["email"]
-	name := claims["identity"].(map[string]interface{})["name"]
-
-	genToken, err := generateToken(LoginIdentity{
-		ID:    userID.(string),
-		Name:  name.(string),
-		Email: email.(string),
-	}, "user")
-	if err != nil {
-		log.Println(err)
-		return utils.ResponseError(c, err.Error, "Something went wrong")
-	}
-
-	return utils.ResponseSuccess(c, genToken, "Request access token success!")
-}
-
-func generateToken(identity LoginIdentity, role string) (*Token, error) {
-	secretKeyAt := os.Getenv("JWT_KEY")
-
-	// at is access token
-	at := jwt.New(jwt.SigningMethodHS256)
-	atClaims := at.Claims.(jwt.MapClaims)
-	atClaims["identity"] = LoginIdentity{
-		ID:    identity.ID,
-		Email: identity.Email,
-		Name:  identity.Name,
-	}
-
-	atClaims["exp"] = time.Now().Add(time.Hour * 24).Unix()
-
-	atHashed, err := at.SignedString([]byte(secretKeyAt))
-	if err != nil {
-		return nil, err
-	}
-
-	return &Token{
-		AccessToken:  atHashed,
-	}, nil
-}
-
-func isLoginInputValid(input AuthInput) (*AuthInput, bool) {
-	var validate AuthInput
-	isValid := true
-
-	if len(input.Email) < 1 {
-		validate.Email = "Email can't be null"
-		isValid = false
-	}
-
-	if len(input.Email) > 255 {
-		validate.Email = "Email maximum 255 character"
-	}
-
-	emailRegex := regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
-	if !emailRegex.MatchString(input.Email) {
-		validate.Email = "Email format doesn't valif"
-		isValid = false
-	}
-
-	if len(input.Password) < 1 {
-		validate.Password = "Password can't be lower than 1"
-		isValid = false
-	}
-
-	return &validate, isValid
-}
-
-func isRegisterInputValid(input AuthInput) (*AuthInput, bool) {
-	var validate AuthInput
-	isValid := true
-
-	if len(input.Name) < 2 {
-		validate.Name = "Name can't be lower than 2 character"
-		isValid = false
-	}
-
-	if len(input.Name) > 255 {
-		validate.Name = "Name to long, maximum 255 character"
-	}
-
-	if len(input.Email) < 1 {
-		validate.Email = "Email can't be null"
-		isValid = false
-	}
-
-	if len(input.Name) > 255 {
-		validate.Name = "Email to long, maximum 255 charackter"
-	}
-
-	emailRegex := regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
-	if !emailRegex.MatchString(input.Email) {
-		validate.Email = "Email format doesn't valif"
-		isValid = false
-	}
-
-	findUserByEmail, err := models.FindUserByEmail(input.Email)
-	if err != nil {
-		log.Println(err)
-		return &validate, isValid
-	}
-
-	if len(findUserByEmail.ID) > 1 {
-		validate.Email = "Email already used"
-		isValid = false
-	}
-
-	if len(input.Password) < 6 {
-		validate.Password = "Password can't be lower than 6"
-		isValid = false
-	}
-
-	if input.Password != input.ConfirmPassword {
-		validate.Password = "Password not same"
-		isValid = false
-	}
-
-	return &validate, isValid
 }

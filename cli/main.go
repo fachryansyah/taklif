@@ -4,11 +4,11 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/joho/godotenv"
-	"golang.org/x/crypto/bcrypt"
 	"log"
 	"os"
 	"strings"
-	"taklif/models"
+	"taklif/services"
+	"taklif/types"
 )
 
 func main() {
@@ -29,19 +29,13 @@ func main() {
 	fmt.Print("Enter your password: ")
 	password, _ := reader.ReadString('\n')
 
-	hashPassword, err := bcrypt.GenerateFromPassword([]byte(password), 14)
-	if err != nil {
-		log.Println(err)
-	}
 
-	_, err = models.InsertUser(models.User{
-		Name:     strings.TrimRight(name, "\n"),
+	id, err := services.RegisterService(types.AuthInput{
+		Name: 	  strings.TrimRight(name, "\n"),
 		Email:    strings.TrimRight(email, "\n"),
-		Password: string(hashPassword),
+		Password: strings.TrimRight(password, "\n"),
 	})
-	if err != nil {
-		log.Println(err)
-	}
 
+	fmt.Printf("Your user id : %q \n", &id)
 	fmt.Println("Successfully setup your account! now you can login with GUI")
 }

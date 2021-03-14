@@ -47,3 +47,11 @@ func ResponseValidationError(c *fiber.Ctx, data interface{}, message string) err
 		"data":    data,
 	})
 }
+
+func ResponseBadRequest(c *fiber.Ctx, data interface{}, message string) error {
+	return c.JSON(fiber.Map{
+		"status":  403,
+		"message": message,
+		"data":    data,
+	})
+}

@@ -2,12 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3cc9a32f-98ad-4d6c-bc47-61d6b9ee18df" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/databases/migration/2_application.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/databases/migration/main.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/databases/readme.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/handlers/application.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/application.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/conn.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routers/application.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/db.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/application.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/auth.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/readme.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/types/auth.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/types/readme.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cli/cli.go" beforeDir="false" afterPath="$PROJECT_DIR$/cli/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cli/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cli/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/databases/data-taklif.db" beforeDir="false" afterPath="$PROJECT_DIR$/databases/data-taklif.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/databases/migration/1_user.sql" beforeDir="false" afterPath="$PROJECT_DIR$/databases/migration/1_user.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handlers/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/auth.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/readme.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/makefile" beforeDir="false" afterPath="$PROJECT_DIR$/makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/database.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/response.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/response.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +68,7 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="settings.editor.selected.configurable" value="template.copyright.formatting" />
   </component>
-  <component name="RunManager" selected="Makefile.run-cli">
+  <component name="RunManager" selected="Makefile.infra-dev">
     <configuration name="infra-dev" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
       <makefile filename="$PROJECT_DIR$/makefile" target="infra-dev" workingDirectory="" arguments="">
         <envs />
@@ -78,10 +95,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Makefile.infra-dev" />
+        <item itemvalue="Makefile.run" />
         <item itemvalue="Makefile.run-cli" />
         <item itemvalue="Makefile.run" />
         <item itemvalue="Makefile.infra-dev" />
-        <item itemvalue="Makefile.run-dev" />
       </list>
     </recent_temporary>
   </component>

@@ -15,7 +15,6 @@ type User struct {
 func InsertUser(user User) (*string, error) {
 	db := InitDB()
 	uuidVal := uuid.NewString()
-	log.Println(uuidVal)
 	statment, err := db.Prepare("INSERT INTO users (id, name, email, password) VALUES (?, ?, ?, ?)")
 	if err != nil {
 		log.Println(err)

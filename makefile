@@ -3,8 +3,6 @@ run:
 run-cli:
 	go run cli/main.go
 infra-dev:
-	echo "Creating local DB for Development"
-	sudo -S cp ${PWD}/databases/data-taklif.db /etc
-	echo "Local DB created!"
+	./scripts/db.sh
 build:
 	go build -o taklif
