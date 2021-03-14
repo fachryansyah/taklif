@@ -108,7 +108,7 @@ func RegisterHandler(c *fiber.Ctx) error {
 		ID *string `json:"id"`
 	}
 
-	return utils.ResponseSuccess(c, response{ID: id}, "Registrasi sukses!")
+	return utils.ResponseSuccess(c, response{ID: id}, "Registration Sucess!")
 }
 
 func CheckTokenHandler(c *fiber.Ctx) error {
@@ -190,22 +190,22 @@ func isLoginInputValid(input AuthInput) (*AuthInput, bool) {
 	isValid := true
 
 	if len(input.Email) < 1 {
-		validate.Email = "Email tidak boleh kosong"
+		validate.Email = "Email can't be null"
 		isValid = false
 	}
 
-	if len(input.Name) > 255 {
-		validate.Name = "Email terlalu panjang maksimal 255"
+	if len(input.Email) > 255 {
+		validate.Email = "Email maximum 255 character"
 	}
 
 	emailRegex := regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
 	if !emailRegex.MatchString(input.Email) {
-		validate.Email = "Format email tidak valid"
+		validate.Email = "Email format doesn't valif"
 		isValid = false
 	}
 
 	if len(input.Password) < 1 {
-		validate.Password = "Password tidak boleh kosong"
+		validate.Password = "Password can't be lower than 1"
 		isValid = false
 	}
 
@@ -217,26 +217,26 @@ func isRegisterInputValid(input AuthInput) (*AuthInput, bool) {
 	isValid := true
 
 	if len(input.Name) < 2 {
-		validate.Name = "Nama tidak boleh kurang dari 2"
+		validate.Name = "Name can't be lower than 2 character"
 		isValid = false
 	}
 
 	if len(input.Name) > 255 {
-		validate.Name = "Nama terlalu panjang maksimal 255"
+		validate.Name = "Name to long, maximum 255 character"
 	}
 
 	if len(input.Email) < 1 {
-		validate.Email = "Email tidak boleh kosong"
+		validate.Email = "Email can't be null"
 		isValid = false
 	}
 
 	if len(input.Name) > 255 {
-		validate.Name = "Email terlalu panjang maksimal 255"
+		validate.Name = "Email to long, maximum 255 charackter"
 	}
 
 	emailRegex := regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
 	if !emailRegex.MatchString(input.Email) {
-		validate.Email = "Format email tidak valid"
+		validate.Email = "Email format doesn't valif"
 		isValid = false
 	}
 
@@ -247,17 +247,17 @@ func isRegisterInputValid(input AuthInput) (*AuthInput, bool) {
 	}
 
 	if len(findUserByEmail.ID) > 1 {
-		validate.Email = "Email sudah digunakan"
+		validate.Email = "Email already used"
 		isValid = false
 	}
 
 	if len(input.Password) < 6 {
-		validate.Password = "Password tidak boleh kurang dari 6"
+		validate.Password = "Password can't be lower than 6"
 		isValid = false
 	}
 
 	if input.Password != input.ConfirmPassword {
-		validate.Password = "Password tidak sama"
+		validate.Password = "Password not same"
 		isValid = false
 	}
 
