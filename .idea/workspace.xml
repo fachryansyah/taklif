@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3cc9a32f-98ad-4d6c-bc47-61d6b9ee18df" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cli/cli.go" beforeDir="false" afterPath="$PROJECT_DIR$/cli/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/databases/data-taklif.db" beforeDir="false" afterPath="$PROJECT_DIR$/databases/data-taklif.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/auth.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/makefile" beforeDir="false" afterPath="$PROJECT_DIR$/makefile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,9 +51,15 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="settings.editor.selected.configurable" value="template.copyright.formatting" />
   </component>
-  <component name="RunManager" selected="Makefile.run">
+  <component name="RunManager" selected="Makefile.run-cli">
     <configuration name="infra-dev" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
       <makefile filename="$PROJECT_DIR$/makefile" target="infra-dev" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
+    <configuration name="run-cli" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/makefile" target="run-cli" workingDirectory="" arguments="">
         <envs />
       </makefile>
       <method v="2" />
@@ -67,6 +78,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Makefile.run-cli" />
         <item itemvalue="Makefile.run" />
         <item itemvalue="Makefile.infra-dev" />
         <item itemvalue="Makefile.run-dev" />
@@ -87,6 +99,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

@@ -43,5 +43,5 @@ func main() {
 		log.Println(err)
 	}
 
-	fmt.Print("Successfully setup your account")
+	fmt.Println("Successfully setup your account! now you can login with GUI")
 }
